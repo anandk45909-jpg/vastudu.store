@@ -1,0 +1,919 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vastudu.shop – India's Fashion Discovery Platform</title>
+  <meta name="description" content="Discover best fashion deals from Myntra, Ajio, Amazon. Compare prices, browse collections – Men, Women, Kids clothing India."/>
+  <meta name="keywords" content="fashion India, clothing deals, Myntra offers, Ajio discounts, men women kids fashion, kurta saree jeans India"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👗</text></svg>"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #1a1a2e;
+      --accent: #e94560;
+      --accent2: #f5a623;
+      --bg: #f7f7f9;
+      --card: #ffffff;
+      --text: #1a1a2e;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --green: #10b981;
+      --radius: 14px;
+    }
+    .dark {
+      --bg: #0f0f1a;
+      --card: #1a1a2e;
+      --text: #f1f1f5;
+      --muted: #9ca3af;
+      --border: #2d2d44;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); overflow-x:hidden; transition:background .3s,color .3s; }
+    a { text-decoration:none; color:inherit; }
+    
+    /* HEADER */
+    header { background:var(--primary); position:sticky; top:0; z-index:200; box-shadow:0 2px 20px rgba(0,0,0,0.15); }
+    .header-top { max-width:1200px; margin:auto; display:flex; align-items:center; gap:16px; padding:12px 20px; min-width:0; }
+    .logo { font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800; color:#fff; flex-shrink:0; cursor:pointer; }
+    .logo span { color:var(--accent); }
+    .logo em { font-style:normal; font-size:0.6rem; color:#9ca3af; display:block; letter-spacing:2px; text-transform:uppercase; line-height:1; }
+    .search-wrap { flex:1; position:relative; max-width:500px; min-width:0; }
+    .search-wrap input { width:100%; padding:10px 16px 10px 44px; border-radius:30px; border:none; background:#fff; font-size:0.9rem; font-family:'DM Sans',sans-serif; outline:none; color:var(--text); transition:box-shadow .2s; }
+    .search-wrap input:focus { box-shadow:0 0 0 3px rgba(233,69,96,0.3); }
+    .search-icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:1rem; pointer-events:none; }
+    .search-suggestions { position:absolute; top:100%; left:0; right:0; background:var(--card); border-radius:12px; border:1px solid var(--border); margin-top:8px; box-shadow:0 10px 40px rgba(0,0,0,0.15); display:none; z-index:100; max-height:300px; overflow-y:auto; }
+    .search-suggestions.show { display:block; animation:slideDown .2s ease; }
+    @keyframes slideDown { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+    .suggestion-item { padding:10px 14px; cursor:pointer; display:flex; align-items:center; gap:10px; font-size:0.85rem; transition:background .15s; }
+    .suggestion-item:hover { background:var(--bg); }
+    .suggestion-item .s-icon { font-size:1.2rem; }
+    .header-actions { display:flex; align-items:center; gap:8px; margin-left:auto; }
+    .header-btn { background:rgba(255,255,255,0.1); border:none; cursor:pointer; color:#fff; font-size:1rem; width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+    .header-btn:hover { background:rgba(255,255,255,0.2); transform:scale(1.05); }
+    .hamburger { display:none; }
+
+    /* NAV */
+    .header-nav { background:rgba(0,0,0,0.2); border-top:1px solid rgba(255,255,255,0.08); }
+    .nav-inner { max-width:1200px; margin:auto; display:flex; gap:0; padding:0 20px; overflow-x:auto; scrollbar-width:none; }
+    .nav-inner::-webkit-scrollbar { display:none; }
+    .nav-link { color:rgba(255,255,255,0.7); font-size:0.82rem; font-weight:500; padding:10px 16px; white-space:nowrap; border-bottom:2px solid transparent; transition:all .2s; cursor:pointer; }
+    .nav-link:hover, .nav-link.active { color:#fff; border-bottom-color:var(--accent); }
+
+    /* MOBILE MENU */
+    .mobile-menu { display:none; background:var(--primary); padding:10px 20px 16px; }
+    .mobile-menu a { display:block; color:rgba(255,255,255,0.8); padding:10px 0; font-size:0.95rem; border-bottom:1px solid rgba(255,255,255,0.08); cursor:pointer; }
+    .mobile-menu.open { display:block; animation:slideDown .2s ease; }
+
+    /* LAYOUT */
+    .main-layout { max-width:1200px; width:100%; margin:0 auto; padding:20px; display:grid; grid-template-columns:minmax(0,240px) minmax(0,1fr); gap:20px; overflow:hidden; }
+    @media(max-width:900px){ .main-layout { grid-template-columns:1fr; } .sidebar { display:none; } }
+
+    /* SIDEBAR */
+    .sidebar { position:sticky; top:100px; height:fit-content; }
+    .filter-section { background:var(--card); border-radius:var(--radius); border:1px solid var(--border); padding:18px; margin-bottom:14px; }
+    .filter-header { font-family:'Syne',sans-serif; font-weight:700; font-size:0.9rem; color:var(--text); margin-bottom:14px; display:flex; justify-content:space-between; align-items:center; }
+    .filter-header span { font-size:0.72rem; color:var(--accent); cursor:pointer; font-family:'DM Sans',sans-serif; font-weight:400; }
+    .filter-header span:hover { text-decoration:underline; }
+    .filter-option { display:flex; align-items:center; gap:10px; margin-bottom:10px; cursor:pointer; }
+    .filter-option input { accent-color:var(--accent); width:16px; height:16px; cursor:pointer; }
+    .filter-option label { font-size:0.85rem; color:var(--text); cursor:pointer; flex:1; }
+    .filter-option .count { font-size:0.75rem; color:var(--muted); }
+    .price-inputs { display:flex; flex-direction:column; gap:8px; margin-top:4px; width:100%; }
+    .price-input { display:block; width:100%; max-width:100%; min-width:0; flex:0 0 auto; padding:8px 12px; border:1px solid var(--border); border-radius:8px; font-size:0.82rem; background:var(--bg); color:var(--text); outline:none; transition:border .2s; }
+    .price-input:focus { border-color:var(--accent); }
+    .apply-btn { width:100%; padding:10px; background:var(--accent); color:#fff; border:none; border-radius:8px; font-family:'Syne',sans-serif; font-weight:700; font-size:0.85rem; cursor:pointer; margin-top:12px; transition:all .2s; }
+    .apply-btn:hover { background:#d63a54; transform:translateY(-1px); }
+
+    /* HERO BANNER */
+    .hero-banner { background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460); border-radius:var(--radius); padding:32px 36px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; overflow:hidden; position:relative; }
+    .hero-banner::before { content:''; position:absolute; right:10%; top:-50%; width:300px; height:300px; background:radial-gradient(circle,rgba(233,69,96,0.25),transparent 70%); animation:pulse 4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{transform:scale(1);opacity:0.5} 50%{transform:scale(1.2);opacity:0.8} }
+    .hero-banner::after { content:''; position:absolute; right:-40px; bottom:-40px; width:180px; height:180px; background:radial-gradient(circle,rgba(245,166,35,0.2),transparent); border-radius:50%; }
+    .hero-text h1 { font-family:'Syne',sans-serif; font-size:clamp(1.5rem,3.5vw,2.2rem); font-weight:800; color:#fff; line-height:1.2; position:relative; z-index:1; }
+    .hero-text h1 span { color:var(--accent); }
+    .hero-text p { color:rgba(255,255,255,0.75); font-size:0.9rem; margin-top:8px; position:relative; z-index:1; }
+    .hero-tags { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; position:relative; z-index:1; }
+    .hero-tag { background:rgba(255,255,255,0.12); color:#fff; font-size:0.75rem; padding:5px 14px; border-radius:20px; border:1px solid rgba(255,255,255,0.2); transition:all .2s; }
+    .hero-tag:hover { background:rgba(233,69,96,0.3); border-color:var(--accent); }
+    .hero-emoji { font-size:4.5rem; position:relative; z-index:1; animation:bounce 3s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    /* CATEGORY PILLS */
+    .cat-pills { display:flex; gap:8px; margin-bottom:18px; overflow-x:auto; scrollbar-width:none; padding-bottom:4px; }
+    .cat-pills::-webkit-scrollbar { display:none; }
+    .cat-pill { display:flex; align-items:center; gap:6px; background:var(--card); border:1px solid var(--border); border-radius:30px; padding:8px 18px; font-size:0.8rem; font-weight:500; white-space:nowrap; cursor:pointer; transition:all .25s; color:var(--text); }
+    .cat-pill:hover { border-color:var(--accent); }
+    .cat-pill.active { background:var(--accent); color:#fff; border-color:var(--accent); box-shadow:0 4px 15px rgba(233,69,96,0.35); }
+    .cat-pill span { font-size:1.1rem; }
+
+    /* SORT BAR */
+    .sort-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:10px; }
+    .sort-bar h2 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; color:var(--text); }
+    .sort-bar .result-count { font-size:0.85rem; color:var(--muted); }
+    .sort-bar .result-count span { color:var(--accent); font-weight:600; }
+    .sort-select { padding:8px 14px; border:1px solid var(--border); border-radius:8px; font-size:0.82rem; background:var(--card); color:var(--text); outline:none; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .view-toggle { display:flex; gap:4px; }
+    .view-btn { width:36px; height:36px; border:1px solid var(--border); background:var(--card); border-radius:8px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .2s; font-size:1rem; }
+    .view-btn.active, .view-btn:hover { background:var(--accent); color:#fff; border-color:var(--accent); }
+
+    /* PRODUCT GRID */
+    .product-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:16px; transition:all .3s; min-width:0; }
+    .product-grid.list-view { grid-template-columns:1fr; }
+    .product-grid.list-view .product-card { display:flex; flex-direction:row; }
+    .product-grid.list-view .product-img { width:140px; height:140px; flex-shrink:0; }
+    .product-grid.list-view .product-info { flex:1; display:flex; flex-direction:row; align-items:center; gap:20px; }
+
+    /* PRODUCT CARD */
+    .product-card { background:var(--card); border-radius:var(--radius); border:1px solid var(--border); overflow:hidden; transition:all .3s; cursor:pointer; animation:fadeIn .4s ease; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+    .product-card:hover { transform:translateY(-6px); box-shadow:0 16px 35px rgba(0,0,0,0.12); border-color:var(--accent); }
+    .product-img { background:linear-gradient(135deg,#f8f9fa,#e9ecef); height:190px; display:flex; align-items:center; justify-content:center; font-size:4.5rem; position:relative; overflow:hidden; }
+    .dark .product-img { background:linear-gradient(135deg,#2d2d44,#1f1f35); }
+    .product-img::before { content:''; position:absolute; inset:0; background:linear-gradient(45deg,transparent 40%,rgba(255,255,255,0.1) 50%,transparent 60%); transform:translateX(-100%); transition:transform .6s; }
+    .product-card:hover .product-img::before { transform:translateX(100%); }
+    .product-badge { position:absolute; top:10px; left:10px; font-size:0.68rem; font-weight:700; padding:4px 10px; border-radius:6px; z-index:1; }
+    .badge-sale { background:#fee2e2; color:#dc2626; }
+    .badge-new { background:#d1fae5; color:#059669; }
+    .badge-top { background:#ede9fe; color:#7c3aed; }
+    .badge-bestseller { background:#fef3c7; color:#d97706; }
+    .product-store { position:absolute; top:10px; right:10px; background:rgba(255,255,255,0.95); border-radius:6px; font-size:0.68rem; font-weight:700; padding:4px 8px; color:var(--primary); z-index:1; }
+    .product-wishlist { position:absolute; bottom:10px; right:10px; width:36px; height:36px; background:rgba(255,255,255,0.9); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .2s; font-size:1rem; opacity:0; transform:translateY(10px); }
+    .product-card:hover .product-wishlist { opacity:1; transform:translateY(0); }
+    .product-wishlist:hover { background:var(--accent); color:#fff; }
+    .product-info { padding:14px; }
+    .product-brand { font-size:0.72rem; color:var(--accent); font-weight:600; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+    .product-name { font-size:0.88rem; font-weight:600; color:var(--text); line-height:1.4; margin-bottom:8px; font-family:'Syne',sans-serif; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .product-pricing { display:flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+    .product-price { font-size:1.05rem; font-weight:700; color:var(--text); font-family:'Syne',sans-serif; }
+    .product-og { font-size:0.78rem; color:var(--muted); text-decoration:line-through; }
+    .product-discount { font-size:0.75rem; font-weight:700; color:var(--green); background:rgba(16,185,129,0.1); padding:2px 6px; border-radius:4px; }
+    .product-stores { display:flex; gap:6px; flex-wrap:wrap; margin-top:auto; }
+    .store-btn { flex:1; min-width:75px; padding:7px 10px; border-radius:8px; font-size:0.75rem; font-weight:600; text-align:center; border:1px solid var(--border); transition:all .2s; color:var(--text); background:var(--bg); cursor:pointer; }
+    .store-btn:hover { transform:scale(1.02); }
+    .store-btn.primary { background:var(--accent); color:#fff; border-color:var(--accent); }
+    .store-btn.primary:hover { background:#d63a54; }
+
+    /* NO RESULTS */
+    .no-results { text-align:center; padding:60px 20px; }
+    .no-results .empty-icon { font-size:4rem; margin-bottom:16px; }
+    .no-results h3 { font-family:'Syne',sans-serif; font-size:1.3rem; margin-bottom:8px; }
+    .no-results p { color:var(--muted); font-size:0.9rem; }
+
+    /* PRICE COMPARE SECTION */
+    .compare-section { background:var(--card); border-radius:var(--radius); border:1px solid var(--border); padding:20px; margin-top:24px; }
+    .compare-section h3 { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; margin-bottom:16px; color:var(--text); display:flex; align-items:center; gap:8px; }
+    .compare-table-wrap { overflow-x:auto; }
+    .compare-table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+    .compare-table th { background:var(--primary); color:#fff; padding:12px 14px; text-align:left; font-family:'Syne',sans-serif; font-weight:600; white-space:nowrap; }
+    .compare-table td { padding:12px 14px; border-bottom:1px solid var(--border); color:var(--text); transition:background .15s; }
+    .compare-table tr:hover td { background:var(--bg); }
+    .compare-table tr:last-child td { border-bottom:none; }
+    .price-cell { font-weight:700; font-family:'Syne',sans-serif; }
+    .best-price { background:rgba(16,185,129,0.12)!important; }
+    .best-price td { color:#059669!important; }
+    .best-badge { background:var(--green); color:#fff; padding:2px 8px; border-radius:10px; font-size:0.7rem; font-weight:600; margin-left:6px; }
+
+    /* STORE LOGOS */
+    .stores-section { background:var(--card); border-radius:var(--radius); border:1px solid var(--border); padding:20px; margin-top:16px; }
+    .stores-section h3 { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; margin-bottom:16px; color:var(--text); }
+    .stores-row { display:flex; gap:10px; flex-wrap:wrap; }
+    .store-logo-btn { display:flex; align-items:center; gap:8px; padding:12px 18px; border-radius:12px; border:1px solid var(--border); background:var(--bg); font-size:0.85rem; font-weight:600; color:var(--text); transition:all .25s; cursor:pointer; }
+    .store-logo-btn:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-2px); box-shadow:0 6px 20px rgba(0,0,0,0.1); }
+
+    /* NEWSLETTER */
+    .newsletter { background:linear-gradient(135deg,#e94560,#f5a623); border-radius:var(--radius); padding:28px; margin-top:24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
+    .newsletter-text h3 { color:#fff; font-family:'Syne',sans-serif; font-size:1.2rem; margin-bottom:4px; }
+    .newsletter-text p { color:rgba(255,255,255,0.85); font-size:0.85rem; }
+    .newsletter-form { display:flex; gap:8px; flex:1; max-width:400px; min-width:260px; }
+    .newsletter-form input { flex:1; padding:12px 16px; border-radius:30px; border:none; font-size:0.9rem; outline:none; }
+    .newsletter-form button { padding:12px 24px; background:var(--primary); color:#fff; border:none; border-radius:30px; font-weight:600; cursor:pointer; transition:all .2s; }
+    .newsletter-form button:hover { background:#0f0f1a; transform:scale(1.02); }
+
+    /* FOOTER */
+    footer { background:var(--primary); color:rgba(255,255,255,0.6); padding:40px 20px 20px; margin-top:40px; }
+    .footer-inner { max-width:1200px; margin:auto; }
+    .footer-top { display:grid; grid-template-columns:1.5fr repeat(3,1fr); gap:30px; margin-bottom:30px; }
+    @media(max-width:768px){ .footer-top { grid-template-columns:1fr 1fr; } }
+    @media(max-width:500px){ .footer-top { grid-template-columns:1fr; } }
+    .footer-brand .f-logo { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:8px; }
+    .footer-brand .f-logo span { color:var(--accent); }
+    .footer-brand p { font-size:0.8rem; line-height:1.7; max-width:220px; }
+    .footer-col h4 { font-family:'Syne',sans-serif; color:#fff; font-size:0.9rem; margin-bottom:14px; }
+    .footer-col a { display:block; font-size:0.8rem; margin-bottom:8px; transition:all .2s; color:rgba(255,255,255,0.6); }
+    .footer-col a:hover { color:#fff; padding-left:5px; }
+    .footer-bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:16px; text-align:center; font-size:0.75rem; }
+    .footer-social { display:flex; gap:10px; margin-top:12px; }
+    .footer-social a { width:36px; height:36px; background:rgba(255,255,255,0.1); border-radius:50%; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+    .footer-social a:hover { background:var(--accent); }
+
+    /* PAGE MODALS */
+    .page-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999; overflow-y:auto; padding:20px; backdrop-filter:blur(4px); }
+    .page-modal.active { display:flex; align-items:flex-start; justify-content:center; animation:fadeIn .2s ease; }
+    .page-content { background:var(--card); border-radius:20px; padding:32px; max-width:560px; width:100%; margin:auto; position:relative; animation:slideUp .3s ease; }
+    @keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+    .page-content h2 { font-family:'Syne',sans-serif; font-size:1.3rem; color:var(--text); margin-bottom:16px; }
+    .page-content p { font-size:0.9rem; color:var(--muted); line-height:1.8; margin-bottom:10px; }
+    .page-close { position:absolute; top:14px; right:18px; background:none; border:none; font-size:1.4rem; cursor:pointer; color:var(--muted); transition:color .2s; }
+    .page-close:hover { color:var(--accent); }
+
+    /* TOAST NOTIFICATION */
+    .toast { position:fixed; bottom:24px; right:24px; background:var(--primary); color:#fff; padding:14px 20px; border-radius:12px; font-size:0.9rem; display:flex; align-items:center; gap:10px; box-shadow:0 10px 30px rgba(0,0,0,0.2); transform:translateY(100px); opacity:0; transition:all .3s ease; z-index:1000; }
+    .toast.show { transform:translateY(0); opacity:1; }
+    .toast.success { background:var(--green); }
+    .toast.error { background:var(--accent); }
+
+    /* LOADING SPINNER */
+    .loading { display:none; padding:40px; text-align:center; }
+    .loading.show { display:block; }
+    .spinner { width:40px; height:40px; border:3px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin .8s linear infinite; margin:0 auto 12px; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+
+    /* RESPONSIVE */
+    @media(max-width:600px) {
+      html, body { width:100%; overflow-x:hidden; }
+      .hamburger { display:flex; }
+      .header-nav { display:none; }
+      .header-top { padding:9px 12px; gap:8px; flex-wrap:nowrap; }
+      .logo { font-size:1.25rem; max-width:142px; }
+      .logo em { font-size:0.48rem; letter-spacing:1.4px; }
+      .search-wrap { max-width:none; flex:1 1 auto; }
+      .search-wrap input { height:38px; padding:9px 12px 9px 38px; font-size:0.82rem; }
+      .header-actions { gap:5px; }
+      .header-btn { width:34px; height:34px; font-size:0.9rem; }
+      .main-layout { width:100%; padding:12px; display:block; overflow:visible; }
+      .sidebar { display:none; }
+      .hero-banner { padding:22px 18px; margin-bottom:16px; border-radius:12px; }
+      .hero-emoji { display:none; }
+      .hero-text h1 { font-size:1.45rem; }
+      .hero-text p { font-size:0.82rem; }
+      .cat-pills { gap:7px; margin-left:-12px; margin-right:-12px; padding:0 12px 6px; }
+      .cat-pill { padding:8px 13px; font-size:0.76rem; }
+      .sort-bar { align-items:flex-start; }
+      .sort-actions { width:100%; display:flex; gap:8px; }
+      .sort-select { flex:1; min-width:0; }
+      .product-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+      .product-img { height:150px; font-size:3.5rem; }
+      .product-info { padding:10px; }
+      .product-brand { font-size:0.64rem; }
+      .product-name { font-size:0.78rem; min-height:2.2em; }
+      .product-price { font-size:0.92rem; }
+      .product-og, .product-discount { font-size:0.68rem; }
+      .store-btn { min-width:0; padding:7px 6px; font-size:0.68rem; }
+      .product-grid.list-view .product-card { flex-direction:column; }
+      .product-grid.list-view .product-img { width:100%; height:150px; }
+      .product-grid.list-view .product-info { display:block; }
+      .compare-section, .stores-section { padding:14px; margin-top:16px; border-radius:12px; }
+      .compare-table { min-width:640px; }
+      .newsletter { padding:20px 16px; border-radius:12px; }
+      .newsletter-form { flex-direction:column; min-width:100%; max-width:none; }
+      .newsletter-form button { width:100%; }
+      .stores-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+      .store-logo-btn { justify-content:center; padding:10px 8px; font-size:0.78rem; }
+      footer { width:100%; padding:32px 16px 18px; }
+      .footer-top { grid-template-columns:1fr; gap:22px; }
+      .footer-brand p { max-width:none; }
+      .footer-social { justify-content:center; }
+      .page-modal { padding:12px; }
+      .page-content { padding:26px 18px; border-radius:14px; }
+      .toast { left:12px; right:12px; bottom:16px; justify-content:center; }
+    }
+
+    @media(max-width:380px) {
+      .logo { max-width:118px; font-size:1.1rem; }
+      .logo em { font-size:0.42rem; }
+      .header-btn { width:32px; height:32px; }
+      .product-img { height:132px; font-size:3rem; }
+      .product-name { font-size:0.74rem; }
+      .store-btn { font-size:0.64rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">
+    <div class="logo" onclick="resetFilters()">Vast<span>udu.shop</span><em>Fashion Discovery</em></div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search kurta, jeans, saree, shoes..." oninput="handleSearch(this.value)" onfocus="showSuggestions()" onblur="hideSuggestionsDelayed()"/>
+      <div class="search-suggestions" id="searchSuggestions"></div>
+    </div>
+    <div class="header-actions">
+      <button class="header-btn" onclick="toggleDark()" title="Toggle Dark Mode">🌙</button>
+      <button class="header-btn" onclick="toggleWishlist()" title="Wishlist">🤍 <span id="wishlistCount" style="font-size:0.7rem;position:absolute;top:2px;right:2px;background:var(--accent);color:#fff;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;">0</span></button>
+      <button class="hamburger header-btn" onclick="toggleMenu()">☰</button>
+    </div>
+  </div>
+  <div class="header-nav">
+    <div class="nav-inner">
+      <a class="nav-link active" onclick="filterCat('all')">👔 Men</a>
+      <a class="nav-link" onclick="filterCat('women')">👗 Women</a>
+      <a class="nav-link" onclick="filterCat('kids')">🧸 Kids</a>
+      <a class="nav-link" onclick="filterCat('ethnic')">🥻 Ethnic</a>
+      <a class="nav-link" onclick="filterCat('western')">👖 Western</a>
+      <a class="nav-link" onclick="filterCat('footwear')">👟 Footwear</a>
+      <a class="nav-link" onclick="filterCat('accessories')">👜 Accessories</a>
+      <a class="nav-link" onclick="filterCat('sale')">🏷️ Sale</a>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a onclick="filterCat('all');toggleMenu()">👔 Men</a>
+    <a onclick="filterCat('women');toggleMenu()">👗 Women</a>
+    <a onclick="filterCat('kids');toggleMenu()">🧸 Kids</a>
+    <a onclick="filterCat('ethnic');toggleMenu()">🥻 Ethnic</a>
+    <a onclick="filterCat('western');toggleMenu()">👖 Western</a>
+    <a onclick="filterCat('footwear');toggleMenu()">👟 Footwear</a>
+    <a onclick="filterCat('accessories');toggleMenu()">👜 Accessories</a>
+  </div>
+</header>
+
+<div class="main-layout">
+  <!-- SIDEBAR FILTERS -->
+  <aside class="sidebar">
+    <div class="filter-section">
+      <div class="filter-header">Gender <span onclick="clearFilter('gender')">Clear</span></div>
+      <div class="filter-option"><input type="checkbox" id="filter-men" onchange="applyFilters()" value="men"/><label for="filter-men">Men</label><span class="count">245</span></div>
+      <div class="filter-option"><input type="checkbox" id="filter-women" onchange="applyFilters()" value="women"/><label for="filter-women">Women</label><span class="count">312</span></div>
+      <div class="filter-option"><input type="checkbox" id="filter-kids" onchange="applyFilters()" value="kids"/><label for="filter-kids">Kids</label><span class="count">98</span></div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-header">Category <span onclick="clearFilter('cat')">Clear</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="kurta"/><label>Kurta / Kurti</label><span class="count">145</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="jeans"/><label>Jeans</label><span class="count">89</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="tshirt"/><label>T-Shirts</label><span class="count">210</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="saree"/><label>Sarees</label><span class="count">67</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="dress"/><label>Dresses</label><span class="count">134</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="footwear"/><label>Footwear</label><span class="count">178</span></div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-header">Price Range (₹)</div>
+      <div class="price-inputs">
+        <input class="price-input" type="number" id="minPrice" placeholder="Min"/>
+        <input class="price-input" type="number" id="maxPrice" placeholder="Max"/>
+      </div>
+      <button class="apply-btn" onclick="applyFilters()">Apply Price Filter</button>
+    </div>
+    <div class="filter-section">
+      <div class="filter-header">Store <span onclick="clearFilter('store')">Clear</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="myntra"/><label>Myntra</label><span class="count">198</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="ajio"/><label>Ajio</label><span class="count">156</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="amazon"/><label>Amazon</label><span class="count">134</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="meesho"/><label>Meesho</label><span class="count">89</span></div>
+      <div class="filter-option"><input type="checkbox" onchange="applyFilters()" value="flipkart"/><label>Flipkart</label><span class="count">78</span></div>
+    </div>
+    <div class="filter-section">
+      <div class="filter-header">Discount <span onclick="clearFilter('disc')">Clear</span></div>
+      <div class="filter-option"><input type="radio" name="disc" onchange="applyFilters()" value="10"/><label>10% or more</label></div>
+      <div class="filter-option"><input type="radio" name="disc" onchange="applyFilters()" value="30"/><label>30% or more</label></div>
+      <div class="filter-option"><input type="radio" name="disc" onchange="applyFilters()" value="50"/><label>50% or more</label></div>
+      <div class="filter-option"><input type="radio" name="disc" onchange="applyFilters()" value="70"/><label>70% or more</label></div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- HERO -->
+    <div class="hero-banner">
+      <div class="hero-text">
+        <h1>Discover Fashion.<br/><span>Compare & Save.</span></h1>
+        <p>Best prices from Myntra, Ajio, Amazon — ek jagah</p>
+        <div class="hero-tags">
+          <span class="hero-tag">👔 Men</span>
+          <span class="hero-tag">👗 Women</span>
+          <span class="hero-tag">🧸 Kids</span>
+          <span class="hero-tag">🏷️ Up to 80% Off</span>
+        </div>
+      </div>
+      <div class="hero-emoji">👗</div>
+    </div>
+
+    <!-- CATEGORY PILLS -->
+    <div class="cat-pills">
+      <div class="cat-pill active" data-cat="all" onclick="filterCat('all')"><span>🔥</span> All</div>
+      <div class="cat-pill" data-cat="kurta" onclick="filterCat('kurta')"><span>🥻</span> Kurta</div>
+      <div class="cat-pill" data-cat="jeans" onclick="filterCat('jeans')"><span>👖</span> Jeans</div>
+      <div class="cat-pill" data-cat="tshirt" onclick="filterCat('tshirt')"><span>👕</span> T-Shirts</div>
+      <div class="cat-pill" data-cat="saree" onclick="filterCat('saree')"><span>🧚</span> Sarees</div>
+      <div class="cat-pill" data-cat="dress" onclick="filterCat('dress')"><span>👗</span> Dresses</div>
+      <div class="cat-pill" data-cat="ethnic" onclick="filterCat('ethnic')"><span>✨</span> Ethnic</div>
+      <div class="cat-pill" data-cat="shoes" onclick="filterCat('shoes')"><span>👟</span> Shoes</div>
+      <div class="cat-pill" data-cat="bags" onclick="filterCat('bags')"><span>👜</span> Bags</div>
+      <div class="cat-pill" data-cat="winter" onclick="filterCat('winter')"><span>🧥</span> Winter</div>
+    </div>
+
+    <!-- SORT BAR -->
+    <div class="sort-bar">
+      <div>
+        <h2 id="categoryTitle">Trending Fashion</h2>
+        <div class="result-count"><span id="resultCount">12</span> products found</div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <select class="sort-select" id="sortSelect" onchange="sortProducts(this.value)">
+          <option value="popular">Most Popular</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+          <option value="discount">Highest Discount</option>
+          <option value="newest">Newest First</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active" onclick="setView('grid')" title="Grid View">▦</button>
+          <button class="view-btn" onclick="setView('list')" title="List View">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <div>Finding best deals...</div>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <div class="product-grid" id="productGrid"></div>
+
+    <!-- NO RESULTS -->
+    <div class="no-results" id="noResults" style="display:none;">
+      <div class="empty-icon">🔍</div>
+      <h3>No products found</h3>
+      <p>Try adjusting your filters or search terms</p>
+    </div>
+
+    <!-- PRICE COMPARE -->
+    <div class="compare-section">
+      <h3>💰 Price Comparison — Top Products</h3>
+      <div class="compare-table-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Myntra</th>
+              <th>Ajio</th>
+              <th>Amazon</th>
+              <th>Meesho</th>
+              <th>Best Deal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Levi's 511 Jeans</td>
+              <td class="price-cell">₹1,999</td>
+              <td class="price-cell">₹2,199</td>
+              <td class="price-cell">₹1,799</td>
+              <td class="price-cell">—</td>
+              <td>Amazon <span class="best-badge">BEST</span></td>
+            </tr>
+            <tr class="best-price">
+              <td>Cotton Kurta Set</td>
+              <td class="price-cell">₹999</td>
+              <td class="price-cell">₹899</td>
+              <td class="price-cell">₹1,099</td>
+              <td class="price-cell">₹699</td>
+              <td>Meesho <span class="best-badge">BEST</span></td>
+            </tr>
+            <tr>
+              <td>Nike Air Max 90</td>
+              <td class="price-cell">₹3,999</td>
+              <td class="price-cell">₹3,799</td>
+              <td class="price-cell">₹3,499</td>
+              <td class="price-cell">—</td>
+              <td>Amazon <span class="best-badge">BEST</span></td>
+            </tr>
+            <tr>
+              <td>Floral Midi Dress</td>
+              <td class="price-cell">₹1,299</td>
+              <td class="price-cell">₹1,499</td>
+              <td class="price-cell">₹1,399</td>
+              <td class="price-cell">₹999</td>
+              <td>Meesho <span class="best-badge">BEST</span></td>
+            </tr>
+            <tr>
+              <td>Silk Blend Saree</td>
+              <td class="price-cell">₹799</td>
+              <td class="price-cell">₹849</td>
+              <td class="price-cell">₹899</td>
+              <td class="price-cell">₹599</td>
+              <td>Meesho <span class="best-badge">BEST</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- NEWSLETTER -->
+    <div class="newsletter">
+      <div class="newsletter-text">
+        <h3>📨 Get Best Deals in Inbox!</h3>
+        <p>Subscribe for exclusive offers and price drops</p>
+      </div>
+      <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+        <input type="email" placeholder="Enter your email" required/>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+
+    <!-- STORE BUTTONS -->
+    <div class="stores-section">
+      <h3>🛒 Browse by Store</h3>
+      <div class="stores-row">
+        <a class="store-logo-btn" href="https://www.myntra.com" target="_blank">👗 Myntra</a>
+        <a class="store-logo-btn" href="https://www.ajio.com" target="_blank">👟 Ajio</a>
+        <a class="store-logo-btn" href="https://www.amazon.in/fashion" target="_blank">🛍️ Amazon</a>
+        <a class="store-logo-btn" href="https://www.meesho.com" target="_blank">🎀 Meesho</a>
+        <a class="store-logo-btn" href="https://www.flipkart.com/clothing" target="_blank">📦 Flipkart</a>
+        <a class="store-logo-btn" href="https://www.firstcry.com" target="_blank">🧸 FirstCry</a>
+        <a class="store-logo-btn" href="https://www.nykaa.com/fashion" target="_blank">💄 Nykaa</a>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="f-logo">Vast<span>udu.shop</span></div>
+        <p>India's fashion discovery platform. Compare prices, find best deals across all top stores.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <a href="#">Men's Fashion</a>
+        <a href="#">Women's Fashion</a>
+        <a href="#">Kids Wear</a>
+        <a href="#">Ethnic Wear</a>
+        <a href="#">Footwear</a>
+      </div>
+      <div class="footer-col">
+        <h4>Top Stores</h4>
+        <a href="https://www.myntra.com" target="_blank">Myntra</a>
+        <a href="https://www.ajio.com" target="_blank">Ajio</a>
+        <a href="https://www.amazon.in" target="_blank">Amazon</a>
+        <a href="https://www.meesho.com" target="_blank">Meesho</a>
+        <a href="https://www.flipkart.com" target="_blank">Flipkart</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#" onclick="openPage('about');return false;">About Us</a>
+        <a href="#" onclick="openPage('contact');return false;">Contact</a>
+        <a href="#" onclick="openPage('privacy');return false;">Privacy Policy</a>
+        <a href="#" onclick="openPage('disclaimer');return false;">Disclaimer</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © 2026 Vastudu.shop. All rights reserved. | Affiliate links are used. Prices may vary across stores.
+      <div class="footer-social">
+        <a href="#">📘</a>
+        <a href="#">📸</a>
+        <a href="#">🐦</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- PAGE MODALS -->
+<div class="page-modal" id="modal-about"><div class="page-content"><button class="page-close" onclick="closePage('about')">✕</button><h2>About Vastudu</h2><p>Vastudu India ka fashion discovery platform hai — jahan aap best prices compare kar sakte hain Myntra, Ajio, Amazon aur aur bhi stores se.</p><p>Hamara goal: ek hi jagah sabse achha deal dhundhna — bina time waste kiye. Hum affiliate links use karte hain, jo aapke final price ko affect nahi karta.</p></div></div>
+<div class="page-modal" id="modal-contact"><div class="page-content"><button class="page-close" onclick="closePage('contact')">✕</button><h2>Contact Us</h2><p>📧 Email: hello@vastudu.in</p><p>Hamari team 24-48 hours me reply karegi.</p></div></div>
+<div class="page-modal" id="modal-privacy"><div class="page-content"><button class="page-close" onclick="closePage('privacy')">✕</button><h2>Privacy Policy</h2><p>Vastudu aapki privacy ka poora khayal rakhta hai. Hum koi personal data share nahi karte.</p><p>Affiliate tracking ke liye basic cookies use hoti hain jo aapka browsing experience behtar banati hain.</p></div></div>
+<div class="page-modal" id="modal-disclaimer"><div class="page-content"><button class="page-close" onclick="closePage('disclaimer')">✕</button><h2>Disclaimer</h2><p>Vastudu pe dikhaye gaye prices change ho sakte hain. Purchase se pehle store pe verify karein.</p><p>Yeh website affiliate links use karti hai — koi bhi purchase par commission mil sakti hai jo aapke price ko affect nahi karta.</p></div></div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ==================== PRODUCT DATA ====================
+const products = [
+  {id:1, brand:"H&M", name:"Regular Fit Cotton T-Shirt", price:499, ogPrice:1299, discount:60, category:"tshirt", gender:"men", store:"myntra", badge:"sale", emoji:"👕", stores:{myntra:"https://www.myntra.com/tshirts", amazon:"https://www.amazon.in/s?k=hm+tshirt"}},
+  {id:2, brand:"Biba", name:"Straight Kurta with Dupatta", price:899, ogPrice:2499, discount:64, category:"kurta", gender:"women", store:"ajio", badge:"top", emoji:"🥻", stores:{ajio:"https://www.ajio.com/biba", myntra:"https://www.myntra.com/biba"}},
+  {id:3, brand:"Levi's", name:"511 Slim Fit Jeans", price:1799, ogPrice:3999, discount:55, category:"jeans", gender:"men", store:"amazon", badge:"new", emoji:"👖", stores:{amazon:"https://www.amazon.in/s?k=levis+jeans", myntra:"https://www.myntra.com/levis"}},
+  {id:4, brand:"Zara", name:"Floral Midi Dress", price:1299, ogPrice:4290, discount:70, category:"dress", gender:"women", store:"myntra", badge:"sale", emoji:"👗", stores:{myntra:"https://www.myntra.com/zara", ajio:"https://www.ajio.com"}},
+  {id:5, brand:"Nike", name:"Air Max Sneakers", price:3499, ogPrice:7995, discount:56, category:"footwear", gender:"men", store:"amazon", badge:"top", emoji:"👟", stores:{amazon:"https://www.amazon.in/s?k=nike+air+max", ajio:"https://www.ajio.com/nike"}},
+  {id:6, brand:"Saree Mall", name:"Silk Blend Saree with Blouse", price:599, ogPrice:1199, discount:50, category:"saree", gender:"women", store:"meesho", badge:"sale", emoji:"🧚", stores:{meesho:"https://www.meesho.com/sarees", myntra:"https://www.myntra.com/sarees"}},
+  {id:7, brand:"Roadster", name:"Men's Puffer Jacket", price:1199, ogPrice:2999, discount:60, category:"winter", gender:"men", store:"flipkart", badge:"new", emoji:"🧥", stores:{flipkart:"https://www.flipkart.com/jackets", myntra:"https://www.myntra.com/roadster"}},
+  {id:8, brand:"Lavie", name:"Women's Tote Handbag", price:899, ogPrice:1649, discount:45, category:"bags", gender:"women", store:"ajio", badge:"sale", emoji:"👜", stores:{ajio:"https://www.ajio.com/bags", amazon:"https://www.amazon.in/s?k=lavie+handbag"}},
+  {id:9, brand:"H&M Kids", name:"Cotton Jogger Set Boys", price:699, ogPrice:1499, discount:53, category:"kids", gender:"kids", store:"firstcry", badge:"top", emoji:"🧒", stores:{firstcry:"https://www.firstcry.com", myntra:"https://www.myntra.com/kids"}},
+  {id:10, brand:"Allen Solly", name:"Formal Slim Fit Shirt", price:799, ogPrice:2299, discount:65, category:"tshirt", gender:"men", store:"myntra", badge:"sale", emoji:"👔", stores:{myntra:"https://www.myntra.com/allen-solly", amazon:"https://www.amazon.in/s?k=allen+solly+shirt"}},
+  {id:11, brand:"W for Woman", name:"Printed A-Line Kurta", price:649, ogPrice:1799, discount:64, category:"kurta", gender:"women", store:"ajio", badge:"bestseller", emoji:"🥻", stores:{ajio:"https://www.ajio.com/w-for-woman", myntra:"https://www.myntra.com/w"}},
+  {id:12, brand:"Adidas", name:"Ultraboost Running Shoes", price:4999, ogPrice:8499, discount:41, category:"footwear", gender:"men", store:"amazon", badge:"sale", emoji:"👟", stores:{amazon:"https://www.amazon.in/s?k=adidas+ultraboost", ajio:"https://www.ajio.com/adidas"}},
+  {id:13, brand:"Manyavar", name:"Silk Kurta Set for Men", price:1499, ogPrice:3999, discount:62, category:"ethnic", gender:"men", store:"myntra", badge:"new", emoji:"🥻", stores:{myntra:"https://www.myntra.com/manyavar", ajio:"https://www.ajio.com/manyavar"}},
+  {id:14, brand:"Pantaloons", name:"Western Dress for Women", price:899, ogPrice:2199, discount:59, category:"dress", gender:"women", store:"ajio", badge:"sale", emoji:"👗", stores:{ajio:"https://www.ajio.com/pantaloons", myntra:"https://www.myntra.com/pantaloons"}},
+  {id:15, brand:"Puma", name:"Running Shoes Men", price:2499, ogPrice:5499, discount:54, category:"footwear", gender:"men", store:"amazon", badge:"top", emoji:"👟", stores:{amazon:"https://www.amazon.in/s?k=puma+running+shoes", ajio:"https://www.ajio.com/puma"}},
+  {id:16, brand:"US Polo", name:"Polo T-Shirt Men", price:599, ogPrice:1499, discount:60, category:"tshirt", gender:"men", store:"myntra", badge:"sale", emoji:"👕", stores:{myntra:"https://www.myntra.com/us-polo", amazon:"https://www.amazon.in/s?k=us+polo+tshirt"}},
+  {id:17, brand:"Global Desi", name:"Anarkali Suit", price:1199, ogPrice:2999, discount:60, category:"ethnic", gender:"women", store:"ajio", badge:"new", emoji:"🥻", stores:{ajio:"https://www.ajio.com/global-desi", myntra:"https://www.myntra.com/global-desi"}},
+  {id:18, brand:"Sephora", name:"Women's Clutch Bag", price:699, ogPrice:1299, discount:46, category:"bags", gender:"women", store:"amazon", badge:"new", emoji:"👜", stores:{amazon:"https://www.amazon.in/s?k=sephora+clutch", flipkart:"https://www.flipkart.com/bags"}},
+];
+
+let currentCategory = 'all';
+let filteredProducts = [...products];
+let wishlist = [];
+
+// ==================== INITIALIZE ====================
+document.addEventListener('DOMContentLoaded', () => {
+  renderProducts(products);
+  updateResultCount(products.length);
+});
+
+// ==================== RENDER PRODUCTS ====================
+function renderProducts(productsToRender) {
+  const grid = document.getElementById('productGrid');
+  const noResults = document.getElementById('noResults');
+  
+  if (productsToRender.length === 0) {
+    grid.innerHTML = '';
+    noResults.style.display = 'block';
+    return;
+  }
+  
+  noResults.style.display = 'none';
+  
+  grid.innerHTML = productsToRender.map((p, index) => `
+    <div class="product-card" style="animation-delay: ${index * 0.05}s">
+      <div class="product-img">
+        ${p.emoji}
+        ${p.badge === 'sale' ? `<span class="product-badge badge-sale">${p.discount}% OFF</span>` : ''}
+        ${p.badge === 'new' ? `<span class="product-badge badge-new">NEW</span>` : ''}
+        ${p.badge === 'top' ? `<span class="product-badge badge-top">TOP</span>` : ''}
+        ${p.badge === 'bestseller' ? `<span class="product-badge badge-bestseller">BESTSELLER</span>` : ''}
+        <span class="product-store">${p.store.charAt(0).toUpperCase() + p.store.slice(1)}</span>
+        <button class="product-wishlist" onclick="toggleWishlistItem(${p.id}, event)" title="Add to Wishlist">🤍</button>
+      </div>
+      <div class="product-info">
+        <div class="product-brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-pricing">
+          <span class="product-price">₹${p.price.toLocaleString()}</span>
+          <span class="product-og">₹${p.ogPrice.toLocaleString()}</span>
+          <span class="product-discount">${p.discount}% off</span>
+        </div>
+        <div class="product-stores">
+          ${Object.entries(p.stores).map(([store, url]) => `
+            <a class="store-btn ${store === p.store ? 'primary' : ''}" href="${url}" target="_blank" onclick="trackClick('${p.brand}', '${store}')">
+              ${store.charAt(0).toUpperCase() + store.slice(1)}
+            </a>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ==================== FILTER FUNCTIONS ====================
+function filterCat(category) {
+  currentCategory = category;
+  
+  // Update active state
+  document.querySelectorAll('.cat-pill, .nav-link').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll(`.cat-pill[data-cat="${category}"`).forEach(el => el.classList.add('active'));
+  
+  // Update category title
+  const titles = {
+    'all': 'Trending Fashion',
+    'kurta': 'Kurta & Kurti',
+    'jeans': 'Jeans',
+    'tshirt': 'T-Shirts',
+    'saree': 'Sarees',
+    'dress': 'Dresses',
+    'ethnic': 'Ethnic Wear',
+    'shoes': 'Footwear',
+    'bags': 'Bags',
+    'winter': 'Winter Wear'
+  };
+  document.getElementById('categoryTitle').textContent = titles[category] || 'Fashion';
+  
+  applyFilters();
+}
+
+function applyFilters() {
+  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+  const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+  const maxPrice = parseInt(document.getElementById('maxPrice').value) || Infinity;
+  
+  // Get checked filters
+  const genderFilters = [...document.querySelectorAll('.filter-section input[value="men"], .filter-section input[value="women"], .filter-section input[value="kids"]')]
+    .filter(el => el.checked).map(el => el.value);
+  
+  const categoryFilters = [...document.querySelectorAll('.filter-section input[value="kurta"], .filter-section input[value="jeans"], .filter-section input[value="tshirt"], .filter-section input[value="saree"], .filter-section input[value="dress"], .filter-section input[value="footwear"]')]
+    .filter(el => el.checked).map(el => el.value);
+  
+  const storeFilters = [...document.querySelectorAll('.filter-section input[value="myntra"], .filter-section input[value="ajio"], .filter-section input[value="amazon"], .filter-section input[value="meesho"], .filter-section input[value="flipkart"]')]
+    .filter(el => el.checked).map(el => el.value);
+  
+  const discFilter = document.querySelector('.filter-section input[name="disc"]:checked');
+  const minDiscount = discFilter ? parseInt(discFilter.value) : 0;
+  
+  // Filter products
+  filteredProducts = products.filter(p => {
+    // Category filter
+    if (currentCategory !== 'all' && p.category !== currentCategory) return false;
+    
+    // Search filter
+    if (searchTerm && !p.name.toLowerCase().includes(searchTerm) && !p.brand.toLowerCase().includes(searchTerm)) return false;
+    
+    // Price filter
+    if (p.price < minPrice || p.price > maxPrice) return false;
+    
+    // Gender filter
+    if (genderFilters.length && !genderFilters.includes(p.gender)) return false;
+    
+    // Category checkbox filter
+    if (categoryFilters.length && !categoryFilters.includes(p.category)) return false;
+    
+    // Store filter
+    if (storeFilters.length && !storeFilters.includes(p.store)) return false;
+    
+    // Discount filter
+    if (p.discount < minDiscount) return false;
+    
+    return true;
+  });
+  
+  // Apply current sort
+  const sortValue = document.getElementById('sortSelect').value;
+  sortArray(sortValue);
+  
+  renderProducts(filteredProducts);
+  updateResultCount(filteredProducts.length);
+}
+
+function sortProducts(value) {
+  sortArray(value);
+  renderProducts(filteredProducts);
+}
+
+function sortArray(value) {
+  switch(value) {
+    case 'price-low':
+      filteredProducts.sort((a, b) => a.price - b.price);
+      break;
+    case 'price-high':
+      filteredProducts.sort((a, b) => b.price - a.price);
+      break;
+    case 'discount':
+      filteredProducts.sort((a, b) => b.discount - a.discount);
+      break;
+    case 'newest':
+      filteredProducts.sort((a, b) => b.id - a.id);
+      break;
+    default:
+      filteredProducts.sort((a, b) => b.id - a.id); // Default to popular (by ID for demo)
+  }
+}
+
+function clearFilter(type) {
+  document.querySelectorAll('.filter-section input[type="checkbox"], .filter-section input[type="radio"]').forEach(el => el.checked = false);
+  document.getElementById('minPrice').value = '';
+  document.getElementById('maxPrice').value = '';
+  applyFilters();
+}
+
+function resetFilters() {
+  document.getElementById('searchInput').value = '';
+  currentCategory = 'all';
+  clearFilter('all');
+  document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
+  document.querySelector('.cat-pill[data-cat="all"]').classList.add('active');
+  document.getElementById('categoryTitle').textContent = 'Trending Fashion';
+  applyFilters();
+}
+
+// ==================== SEARCH ====================
+const searchSuggestions = [
+  {term: 'kurta', icon: '🥻'},
+  {term: 'jeans', icon: '👖'},
+  {term: 'tshirt', icon: '👕'},
+  {term: 'saree', icon: '🧚'},
+  {term: 'shoes', icon: '👟'},
+  {term: 'dress', icon: '👗'},
+  {term: 'jacket', icon: '🧥'},
+  {term: 'sneakers', icon: '👟'},
+];
+
+function handleSearch(value) {
+  if (value.length > 0) {
+    showSuggestions();
+  }
+  applyFilters();
+}
+
+function showSuggestions() {
+  const container = document.getElementById('searchSuggestions');
+  container.innerHTML = searchSuggestions.map(s => `
+    <div class="suggestion-item" onmousedown="selectSuggestion('${s.term}')">
+      <span class="s-icon">${s.icon}</span>
+      <span>${s.term}</span>
+    </div>
+  `).join('');
+  container.classList.add('show');
+}
+
+function hideSuggestionsDelayed() {
+  setTimeout(() => {
+    document.getElementById('searchSuggestions').classList.remove('show');
+  }, 200);
+}
+
+function selectSuggestion(term) {
+  document.getElementById('searchInput').value = term;
+  document.getElementById('searchSuggestions').classList.remove('show');
+  applyFilters();
+}
+
+// ==================== WISHLIST ====================
+function toggleWishlistItem(id, event) {
+  event.stopPropagation();
+  const index = wishlist.indexOf(id);
+  if (index > -1) {
+    wishlist.splice(index, 1);
+    showToast('Removed from wishlist!', 'error');
+  } else {
+    wishlist.push(id);
+    showToast('Added to wishlist! ❤️', 'success');
+  }
+  updateWishlistCount();
+}
+
+function updateWishlistCount() {
+  document.getElementById('wishlistCount').textContent = wishlist.length;
+}
+
+function toggleWishlist() {
+  if (wishlist.length === 0) {
+    showToast('Your wishlist is empty!', '');
+  } else {
+    filteredProducts = products.filter(p => wishlist.includes(p.id));
+    renderProducts(filteredProducts);
+    document.getElementById('categoryTitle').textContent = 'My Wishlist';
+    updateResultCount(filteredProducts.length);
+  }
+}
+
+// ==================== UTILITY FUNCTIONS ====================
+function updateResultCount(count) {
+  document.getElementById('resultCount').textContent = count;
+}
+
+function toggleDark() {
+  document.body.classList.toggle('dark');
+  const btn = document.querySelector('.header-btn');
+  btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+}
+
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+function setView(view) {
+  const grid = document.getElementById('productGrid');
+  const buttons = document.querySelectorAll('.view-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  if (view === 'list') {
+    grid.classList.add('list-view');
+  } else {
+    grid.classList.remove('list-view');
+  }
+}
+
+function trackClick(brand, store) {
+  console.log(`Tracking: ${brand} clicked on ${store}`);
+}
+
+// ==================== MODALS & TOAST ====================
+function openPage(n) {
+  document.getElementById('modal-' + n).classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePage(n) {
+  document.getElementById('modal-' + n).classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.page-modal').forEach(m => {
+  m.addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+});
+
+function showToast(message, type = '') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = 'toast show ' + type;
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+function subscribeNewsletter(e) {
+  e.preventDefault();
+  showToast('Thanks for subscribing! 🎉', 'success');
+  e.target.reset();
+}
+</script>
+</body>
+</html>
+
