@@ -36,11 +36,6 @@
     header { background:var(--primary); position:sticky; top:0; z-index:200; box-shadow:0 2px 20px rgba(0,0,0,0.15); }
     .header-top { max-width:1200px; margin:auto; display:flex; align-items:center; gap:16px; padding:12px 20px; min-width:0; }
     .logo { font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800; color:#fff; flex-shrink:0; cursor:pointer; }
-    .logo img{
-  height:55px;
-  width:auto;
-  display:block;
-}
     .logo span { color:var(--accent); }
     .logo em { font-style:normal; font-size:0.6rem; color:#9ca3af; display:block; letter-spacing:2px; text-transform:uppercase; line-height:1; }
     .search-wrap { flex:1; position:relative; max-width:500px; min-width:0; }
@@ -304,9 +299,9 @@
 
 <!-- HEADER -->
 <header>
-  <div class="header-top">
-    <div class="logo" onclick="resetFilters()">
+  <div class="logo" onclick="resetFilters()">
   <img src="images/logo.png" alt="Vastudu Logo">
+  <div>Vast<span>udu.store</span><em>Fashion Discovery</em></div>
 </div>
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
