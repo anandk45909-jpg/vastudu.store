@@ -122,13 +122,19 @@
     .product-grid.list-view { grid-template-columns:1fr; }
     .product-grid.list-view .product-card { display:flex; flex-direction:row; }
     .product-grid.list-view .product-img { width:140px; height:140px; flex-shrink:0; }
+
     .product-grid.list-view .product-info { flex:1; display:flex; flex-direction:row; align-items:center; gap:20px; }
 
     /* PRODUCT CARD */
     .product-card { background:var(--card); border-radius:var(--radius); border:1px solid var(--border); overflow:hidden; transition:all .3s; cursor:pointer; animation:fadeIn .4s ease; }
     @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
     .product-card:hover { transform:translateY(-6px); box-shadow:0 16px 35px rgba(0,0,0,0.12); border-color:var(--accent); }
-    .product-img { background:linear-gradient(135deg,#f8f9fa,#e9ecef); height:190px; display:flex; align-items:center; justify-content:center; font-size:4.5rem; position:relative; overflow:hidden; }
+    .product-img { background:linear-gradient(135deg,#f8f9fa,#e9ecef); height:190px; display:flex; align-items:center; justify-content:center; font-size:4.5rem; position:relative; overflow:hidden; }.product-img img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:10px;
+}
     .dark .product-img { background:linear-gradient(135deg,#2d2d44,#1f1f35); }
     .product-img::before { content:''; position:absolute; inset:0; background:linear-gradient(45deg,transparent 40%,rgba(255,255,255,0.1) 50%,transparent 60%); transform:translateX(-100%); transition:transform .6s; }
     .product-card:hover .product-img::before { transform:translateX(100%); }
@@ -586,7 +592,7 @@
 <script>
 // ==================== PRODUCT DATA ====================
 const products = [
-  {id:1, brand:"H&M", name:"Regular Fit Cotton T-Shirt", price:499, ogPrice:1299, discount:60, category:"tshirt", gender:"men", store:"myntra", badge:"sale", emoji:"👕", stores:{myntra:"https://myntr.it/qMFynUk/tshirts", amazon:"https://www.amazon.in/s?k=hm+tshirt"}},
+  {id:1, brand:"H&M", name:"Regular Fit Cotton T-Shirt", price:499, ogPrice:1299, discount:60, category:"tshirt",image:"images/tshirt.jpg", gender:"men", store:"myntra", badge:"sale", emoji:"👕", stores:{myntra:"https://myntr.it/qMFynUk/tshirts", amazon:"https://www.amazon.in/s?k=hm+tshirt"}},
   {id:2, brand:"Biba", name:"Straight Kurta with Dupatta", price:899, ogPrice:2499, discount:64, category:"kurta", gender:"women", store:"ajio", badge:"top", emoji:"🥻", stores:{ajio:"https://ajiio.in/K2j6rZo/biba", myntra:"https://www.myntra.com/biba"}},
   {id:3, brand:"Levi's", name:"511 Slim Fit Jeans", price:1799, ogPrice:3999, discount:55, category:"jeans", gender:"men", store:"amazon", badge:"new", emoji:"👖", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=levis+jeans", myntra:"https://www.myntra.com/levis"}},
   {id:4, brand:"Zara", name:"Floral Midi Dress", price:1299, ogPrice:4290, discount:70, category:"dress", gender:"women", store:"myntra", badge:"sale", emoji:"👗", stores:{myntra:"https://myntr.it/qMFynUk/zara", ajio:"https://www.ajio.com"}},
@@ -632,7 +638,7 @@ function renderProducts(productsToRender) {
   grid.innerHTML = productsToRender.map((p, index) => `
     <div class="product-card" style="animation-delay: ${index * 0.05}s">
       <div class="product-img">
-        ${p.emoji}
+        <img src="${p.image}" alt="${p.name}">
         ${p.badge === 'sale' ? `<span class="product-badge badge-sale">${p.discount}% OFF</span>` : ''}
         ${p.badge === 'new' ? `<span class="product-badge badge-new">NEW</span>` : ''}
         ${p.badge === 'top' ? `<span class="product-badge badge-top">TOP</span>` : ''}
