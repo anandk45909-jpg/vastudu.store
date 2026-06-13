@@ -6,7 +6,11 @@
   <title>Vastudu.store – India's Fashion Discovery Platform</title>
   <meta name="description" content="Discover best fashion deals from Myntra, Ajio, Amazon. Compare prices, browse collections – Men, Women, Kids clothing India."/>
   <meta name="keywords" content="fashion India, clothing deals, Myntra offers, Ajio discounts, men women kids fashion, kurta saree jeans India"/>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👗</text></svg>"/>
+  
+  <!-- Google Search ke liye Favicon Updated -->
+  <link rel="icon" href="logo.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="logo.png" />
+  
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -35,9 +39,10 @@
     /* HEADER */
     header { background:var(--primary); position:sticky; top:0; z-index:200; box-shadow:0 2px 20px rgba(0,0,0,0.15); }
     .header-top { max-width:1200px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 20px; }
-    .logo { font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800; color:#fff; flex-shrink:0; cursor:pointer; }
-    .logo span { color:var(--accent); }
-    .logo em { font-style:normal; font-size:0.6rem; color:#9ca3af; display:block; letter-spacing:2px; text-transform:uppercase; line-height:1; }
+    .logo { cursor:pointer; flex-shrink:0; display:flex; align-items:center; }
+    .logo img { height: 42px; width: auto; border-radius: 4px; transition: transform 0.2s; background: #fff; padding: 2px; }
+    .logo img:hover { transform: scale(1.05); }
+    
     .search-wrap { flex:1; position:relative; max-width:500px; margin:0 10px; }
     .search-wrap input { width:100%; padding:10px 16px 10px 44px; border-radius:30px; border:none; background:#fff; font-size:0.9rem; font-family:'DM Sans',sans-serif; outline:none; color:var(--text); transition:box-shadow .2s; }
     .search-wrap input:focus { box-shadow:0 0 0 3px rgba(233,69,96,0.3); }
@@ -201,8 +206,8 @@
     .footer-top { display:grid; grid-template-columns:1.5fr repeat(3,1fr); gap:30px; margin-bottom:30px; }
     @media(max-width:768px){ .footer-top { grid-template-columns:1fr 1fr; } }
     @media(max-width:500px){ .footer-top { grid-template-columns:1fr; } }
-    .footer-brand .f-logo { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:8px; }
-    .footer-brand .f-logo span { color:var(--accent); }
+    .footer-brand .f-logo { margin-bottom:12px; }
+    .footer-brand .f-logo img { height: 48px; width: auto; border-radius: 6px; background: #fff; padding: 2px; }
     .footer-brand p { font-size:0.8rem; line-height:1.7; max-width:220px; }
     .footer-col h4 { font-family:'Syne',sans-serif; color:#fff; font-size:0.9rem; margin-bottom:14px; }
     .footer-col a { display:block; font-size:0.8rem; margin-bottom:8px; transition:all .2s; color:rgba(255,255,255,0.6); }
@@ -239,8 +244,7 @@
       .hamburger { display:flex; }
       .header-nav { display:none; }
       .header-top { padding:10px 12px; gap:8px; }
-      .logo { font-size:1.2rem; }
-      .logo em { font-size:0.45rem; letter-spacing:1px; }
+      .logo img { height: 36px; }
       .search-wrap { max-width:none; margin:0 4px; }
       .search-wrap input { padding:8px 10px 8px 34px; font-size:0.8rem; height:36px; }
       .search-icon { left:10px; font-size:0.85rem; }
@@ -290,10 +294,11 @@
 <!-- HEADER -->
 <header>
   <div class="header-top">
+    <!-- Header Logo Updated -->
     <div class="logo" onclick="resetFilters()">
-      Vast<span>udu.store</span>
-      <em>Fashion Discovery</em>
+      <img src="logo.png" alt="Vastudu Fashion Discovery" />
     </div>
+    
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
       <input type="text" id="searchInput" placeholder="Search kurta, jeans, saree, shoes..." oninput="handleSearch(this.value)" onfocus="showSuggestions()" onblur="hideSuggestionsDelayed()"/>
@@ -306,7 +311,6 @@
     </div>
   </div>
   
-  <!-- Updated Top Nav Data Attributes -->
   <div class="header-nav">
     <div class="nav-inner">
       <a class="nav-link active" data-nav="all" onclick="filterCat('all')">🔥 All</a>
@@ -539,7 +543,10 @@
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <div class="f-logo">Vast<span>udu.store</span></div>
+        <!-- Footer Logo Updated -->
+        <div class="f-logo">
+          <img src="logo.png" alt="Vastudu Store Logo" />
+        </div>
         <p>India's fashion discovery platform. Compare prices, find best deals across all top stores.</p>
       </div>
       <div class="footer-col">
@@ -580,7 +587,7 @@
 <!-- PAGE MODALS -->
 <div class="page-modal" id="modal-about"><div class="page-content"><button class="page-close" onclick="closePage('about')">✕</button><h2>About Vastudu</h2><p>Vastudu India ka fashion discovery platform hai — jahan aap best prices compare kar sakte hain Myntra, Ajio, Amazon aur aur bhi stores se.</p><p>Hamara goal: ek hi jagah sabse achha deal dhundhna — bina time waste kiye. Hum affiliate links use karte hain, jo aapke final price ko affect nahi karta.</p></div></div>
 <div class="page-modal" id="modal-contact"><div class="page-content"><button class="page-close" onclick="closePage('contact')">✕</button><h2>Contact Us</h2><p>📧 Email: hello@vastudu.in</p><p>Hamari team 24-48 hours me reply karegi.</p></div></div>
-<div class="page-modal" id="modal-privacy"><div class="page-content"><button class="page-close" onclick="closePage('privacy')">✕</button><h2>Privacy Policy</h2><p>Vastudu aapki privacy ka poora khayal rakhta hai. Hum koi personal data share nahi karte.</p><p>Affiliate tracking ke liye basic cookies use hoti hain jo aapka browsing experience behtar banati hain.</p></div></div>
+<div class="page-modal" id="modal-privacy"><div class="page-content"><button class="page-close" onclick="closePage('privacy')">✕</button><h2>Privacy Policy</h2><p>Vastudu aapki privacy ka poora khayal rakhta hai. Hum koi personal data share nahi ক্ষমতায় karte.</p><p>Affiliate tracking ke liye basic cookies use hoti hain jo aapka browsing experience behtar banati hain.</p></div></div>
 <div class="page-modal" id="modal-disclaimer"><div class="page-content"><button class="page-close" onclick="closePage('disclaimer')">✕</button><h2>Disclaimer</h2><p>Vastudu pe dikhaye gaye prices change ho sakte hain. Purchase se pehle store pe verify karein.</p><p>Yeh website affiliate links use karti hai — koi bhi purchase par commission mil sakti hai jo aapke price ko affect nahi karta.</p></div></div>
 
 <!-- TOAST -->
@@ -589,24 +596,24 @@
 <script>
 // ==================== PRODUCT DATA ====================
 const products = [
-  {id:1, brand:"H&M", name:"Regular Fit Cotton T-Shirt", price:499, ogPrice:1299, discount:60, category:"tshirt",image:"images/tshirt.jpg", gender:"men", store:"myntra", badge:"sale", emoji:"👕", stores:{myntra:"https://myntr.it/qMFynUk/tshirts", amazon:"https://amzn.to/4aw5bBR/s?k=hm+tshirt"}},
-  {id:2, brand:"Biba", name:"Straight Kurta with Dupatta", price:899, ogPrice:2499, discount:64, category:"kurta",image:"images/straight-kurta.jpeg", gender:"women", store:"ajio", badge:"top", emoji:"🥻", stores:{ajio:"https://ajiio.in/K2j6rZo/biba", myntra:"https://myntr.it/qMFynUk/biba"}},
-  {id:3, brand:"Levi's", name:"511 Slim Fit Jeans", price:1799, ogPrice:3999, discount:55, category:"jeans",image:"images/jeans.jpg",gender:"men", store:"amazon", badge:"new", emoji:"👖", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=levis+jeans", myntra:"https://myntr.it/qMFynUk/levis"}},
-  {id:4, brand:"Zara", name:"Formal Midi Dress", price:1299, ogPrice:4290, discount:70, category:"dress",image:"images/formal-mid-dress.jpeg", gender:"women", store:"myntra", badge:"sale", emoji:"👗", stores:{myntra:"https://myntr.it/qMFynUk/zara", ajio:"https://ajiio.in/K2j6rZo/zara"}},
-  {id:5, brand:"Nike", name:"Air Max Sneakers", price:3499, ogPrice:7995, discount:56, category:"footwear",image:"images/shoe.png", gender:"men", store:"amazon", badge:"top", emoji:"👟", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=nike+air+max", ajio:"https://ajiio.in/K2j6rZo/nike"}},
-  {id:6, brand:"Saree Mall", name:"Silk Blend Saree with Blouse", price:599, ogPrice:1199, discount:50, category:"saree",image:"images/silk-blend-saree-blous.jpeg", gender:"women", store:"meesho", badge:"sale", emoji:"🧚", stores:{meesho:"https://www.meesho.com/sarees", myntra:"https://myntr.it/qMFynUk/sarees"}},
-  {id:7, brand:"Roadster", name:"Men's Puffer Jacket", price:1199, ogPrice:2999, discount:60, category:"winter", image:"images/winter.png",gender:"men", store:"flipkart", badge:"new", emoji:"🧥", stores:{flipkart:"https://fktr.in/aKSX6pj/jackets", myntra:"https://myntr.it/qMFynUk/roadster"}},
-  {id:8, brand:"Lavie", name:"Women's Tote Handbag", price:899, ogPrice:1649, discount:45, category:"bags",image:"images/bages.png", gender:"women", store:"ajio", badge:"sale", emoji:"👜", stores:{ajio:"https://ajiio.in/K2j6rZo/bags", amazon:"https://amzn.to/4aw5bBR/s?k=lavie+handbag"}},
-  {id:9, brand:"H&M Kids", name:"Cotton Jogger Set Boys", price:699, ogPrice:1499, discount:53, category:"kids",image:"images/Cotton-Jogger.jpeg", gender:"kids", store:"firstcry", badge:"top", emoji:"🧒", stores:{firstcry:"https://www.firstcry.com", myntra:"https://myntr.it/qMFynUk/kids"}},
-  {id:10, brand:"Allen Solly", name:"Formal Slim Fit Shirt", price:799, ogPrice:2299, discount:65, category:"tshirt",image:"images/formal-shirt.jpeg", gender:"men", store:"myntra", badge:"sale", emoji:"👔", stores:{myntra:"https://myntr.it/qMFynUk/allen-solly", amazon:"https://amzn.to/4aw5bBR/s?k=allen+solly+shirt"}},
-  {id:11, brand:"W for Woman", name:"Printed A-Line Kurta", price:649, ogPrice:1799, discount:64, category:"kurta",image:"images/A-line-kurta.jpeg", gender:"women", store:"ajio", badge:"bestseller", emoji:"🥻", stores:{ajio:"https://ajiio.in/K2j6rZo/w-for-woman", myntra:"https://myntr.it/qMFynUk/w"}},
-  {id:12, brand:"Adidas", name:"Ultraboost Running Shoes", price:4999, ogPrice:8499, discount:41, category:"footwear",image:"images/ultraboost-runningshoes.jpeg", gender:"men", store:"amazon", badge:"sale", emoji:"👟", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=adidas+ultraboost", ajio:"https://ajiio.in/K2j6rZo/adidas"}},
-  {id:13, brand:"Manyavar", name:"Silk Kurta Set for Men", price:1499, ogPrice:3999, discount:62, category:"ethnic",image:"images/silk-kurta.jpeg", gender:"men", store:"myntra", badge:"new", emoji:"🥻", stores:{myntra:"https://myntr.it/qMFynUk/manyavar", ajio:"https://ajiio.in/K2j6rZo/manyavar"}},
-  {id:14, brand:"Pantaloons", name:"Western Dress for Women", price:899, ogPrice:2199, discount:59, category:"dress",image:"images/western-dress.jpeg", gender:"women", store:"ajio", badge:"sale", emoji:"👗", stores:{ajio:"https://ajiio.in/K2j6rZo/pantaloons", myntra:"https://myntr.it/qMFynUk/pantaloons"}},
-  {id:15, brand:"Puma", name:"Running Shoes Men", price:2499, ogPrice:5499, discount:54, category:"footwear",image:"images/running-shoes.jpeg", gender:"men", store:"amazon", badge:"top", emoji:"👟", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=puma+running+shoes", ajio:"https://ajiio.in/K2j6rZo/puma"}},
-  {id:16, brand:"US Polo", name:"Polo T-Shirt Men", price:599, ogPrice:1499, discount:60, category:"tshirt",image:"images/polo-tshirt.jpeg", gender:"men", store:"myntra", badge:"sale", emoji:"👕", stores:{myntra:"https://myntr.it/qMFynUk/us-polo", amazon:"https://amzn.to/4aw5bBR/s?k=us+polo+tshirt"}},
-  {id:17, brand:"Global Desi", name:"Anarkali Suit", price:1199, ogPrice:2999, discount:60, category:"ethnic",image:"images/anarkali-suit.jpeg", gender:"women", store:"ajio", badge:"new", emoji:"🥻", stores:{ajio:"https://ajiio.in/K2j6rZo/global-desi", myntra:"https://myntr.it/qMFynUk/global-desi"}},
-  {id:18, brand:"Sephora", name:"Women's Clutch Bag", price:699, ogPrice:1299, discount:46, category:"bags",image:"images/clutch-bag.jpeg", gender:"women", store:"amazon", badge:"new", emoji:"👜", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=sephora+clutch", flipkart:"https://fktr.in/aKSX6pj/bags"}},
+  {id:1, brand:"H&M", name:"Regular Fit Cotton T-Shirt", price:499, ogPrice:1299, discount:60, category:"tshirt",image:"images/tshirt.jpg", gender:"men", store:"myntra", badge:"sale", emoji:"👕", stores:{myntra:"https://myntr.it/qMFynUk/tshirts", amazon:"https://www.amazon.in/s?k=hm+tshirt"}},
+  {id:2, brand:"Biba", name:"Straight Kurta with Dupatta", price:899, ogPrice:2499, discount:64, category:"kurta",image:"images/straight-kurta.jpeg", gender:"women", store:"ajio", badge:"top", emoji:"🥻", stores:{ajio:"https://ajiio.in/K2j6rZo/biba", myntra:"https://www.myntra.com/biba"}},
+  {id:3, brand:"Levi's", name:"511 Slim Fit Jeans", price:1799, ogPrice:3999, discount:55, category:"jeans",image:"images/jeans.jpg",gender:"men", store:"amazon", badge:"new", emoji:"👖", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=levis+jeans", myntra:"https://www.myntra.com/levis"}},
+  {id:4, brand:"Zara", name:"Formal Midi Dress", price:1299, ogPrice:4290, discount:70, category:"dress",image:"images/formal-mid-dress.jpeg", gender:"women", store:"myntra", badge:"sale", emoji:"👗", stores:{myntra:"https://myntr.it/qMFynUk/zara", ajio:"https://www.ajio.com"}},
+  {id:5, brand:"Nike", name:"Air Max Sneakers", price:3499, ogPrice:7995, discount:56, category:"footwear",image:"images/shoe.png", gender:"men", store:"amazon", badge:"top", emoji:"👟", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=nike+air+max", ajio:"https://www.ajio.com/nike"}},
+  {id:6, brand:"Saree Mall", name:"Silk Blend Saree with Blouse", price:599, ogPrice:1199, discount:50, category:"saree",image:"images/silk-blend-saree-blous.jpeg", gender:"women", store:"meesho", badge:"sale", emoji:"🧚", stores:{meesho:"https://www.meesho.com/sarees", myntra:"https://www.myntra.com/sarees"}},
+  {id:7, brand:"Roadster", name:"Men's Puffer Jacket", price:1199, ogPrice:2999, discount:60, category:"winter", image:"images/winter.png",gender:"men", store:"flipkart", badge:"new", emoji:"🧥", stores:{flipkart:"https://fktr.in/aKSX6pj/jackets", myntra:"https://www.myntra.com/roadster"}},
+  {id:8, brand:"Lavie", name:"Women's Tote Handbag", price:899, ogPrice:1649, discount:45, category:"bags",image:"images/bages.png", gender:"women", store:"ajio", badge:"sale", emoji:"👜", stores:{ajio:"https://ajiio.in/K2j6rZo/bags", amazon:"https://www.amazon.in/s?k=lavie+handbag"}},
+  {id:9, brand:"H&M Kids", name:"Cotton Jogger Set Boys", price:699, ogPrice:1499, discount:53, category:"kids",image:"images/Cotton-Jogger.jpeg", gender:"kids", store:"firstcry", badge:"top", emoji:"🧒", stores:{firstcry:"https://www.firstcry.com", myntra:"https://www.myntra.com/kids"}},
+  {id:10, brand:"Allen Solly", name:"Formal Slim Fit Shirt", price:799, ogPrice:2299, discount:65, category:"tshirt",image:"images/formal-shirt.jpeg", gender:"men", store:"myntra", badge:"sale", emoji:"👔", stores:{myntra:"https://myntr.it/qMFynUk/allen-solly", amazon:"https://www.amazon.in/s?k=allen+solly+shirt"}},
+  {id:11, brand:"W for Woman", name:"Printed A-Line Kurta", price:649, ogPrice:1799, discount:64, category:"kurta",image:"images/A-line-kurta.jpeg", gender:"women", store:"ajio", badge:"bestseller", emoji:"🥻", stores:{ajio:"https://ajiio.in/K2j6rZo/w-for-woman", myntra:"https://www.myntra.com/w"}},
+  {id:12, brand:"Adidas", name:"Ultraboost Running Shoes", price:4999, ogPrice:8499, discount:41, category:"footwear",image:"images/ultraboost-runningshoes.jpeg", gender:"men", store:"amazon", badge:"sale", emoji:"👟", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=adidas+ultraboost", ajio:"https://www.ajio.com/adidas"}},
+  {id:13, brand:"Manyavar", name:"Silk Kurta Set for Men", price:1499, ogPrice:3999, discount:62, category:"ethnic",image:"images/silk-kurta.jpeg", gender:"men", store:"myntra", badge:"new", emoji:"🥻", stores:{myntra:"https://myntr.it/qMFynUk/manyavar", ajio:"https://www.ajio.com/manyavar"}},
+  {id:14, brand:"Pantaloons", name:"Western Dress for Women", price:899, ogPrice:2199, discount:59, category:"dress",image:"images/western-dress.jpeg", gender:"women", store:"ajio", badge:"sale", emoji:"👗", stores:{ajio:"https://ajiio.in/K2j6rZo/pantaloons", myntra:"https://www.myntra.com/pantaloons"}},
+  {id:15, brand:"Puma", name:"Running Shoes Men", price:2499, ogPrice:5499, discount:54, category:"footwear",image:"images/running-shoes.jpeg", gender:"men", store:"amazon", badge:"top", emoji:"👟", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=puma+running+shoes", ajio:"https://www.ajio.com/puma"}},
+  {id:16, brand:"US Polo", name:"Polo T-Shirt Men", price:599, ogPrice:1499, discount:60, category:"tshirt",image:"images/polo-tshirt.jpeg", gender:"men", store:"myntra", badge:"sale", emoji:"👕", stores:{myntra:"https://myntr.it/qMFynUk/us-polo", amazon:"https://www.amazon.in/s?k=us+polo+tshirt"}},
+  {id:17, brand:"Global Desi", name:"Anarkali Suit", price:1199, ogPrice:2999, discount:60, category:"ethnic",image:"images/anarkali-suit.jpeg", gender:"women", store:"ajio", badge:"new", emoji:"🥻", stores:{ajio:"https://ajiio.in/K2j6rZo/global-desi", myntra:"https://www.myntra.com/global-desi"}},
+  {id:18, brand:"Sephora", name:"Women's Clutch Bag", price:699, ogPrice:1299, discount:46, category:"bags",image:"images/clutch-bag.jpeg", gender:"women", store:"amazon", badge:"new", emoji:"👜", stores:{amazon:"https://amzn.to/4aw5bBR/s?k=sephora+clutch", flipkart:"https://www.flipkart.com/bags"}},
 ];
 
 let currentCategory = 'all';
