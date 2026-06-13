@@ -258,7 +258,7 @@
       
       .sort-bar { flex-direction:column; align-items:stretch; gap:12px; }
       .sort-select { width:100%; }
-      .view-toggle { display:none; } /* Grid mode enforced on mobile for consistent 2-col look */
+      .view-toggle { display:none; } 
       
       .product-grid { grid-template-columns: repeat(2, 1fr); gap:10px; }
       .product-img { height:160px; }
@@ -305,26 +305,32 @@
       <button class="hamburger header-btn" onclick="toggleMenu()">☰</button>
     </div>
   </div>
+  
+  <!-- Updated Top Nav Data Attributes -->
   <div class="header-nav">
     <div class="nav-inner">
-      <a class="nav-link active" onclick="filterCat('all')">👔 Men</a>
-      <a class="nav-link" onclick="filterCat('women')">👗 Women</a>
-      <a class="nav-link" onclick="filterCat('kids')">🧸 Kids</a>
-      <a class="nav-link" onclick="filterCat('ethnic')">🥻 Ethnic</a>
-      <a class="nav-link" onclick="filterCat('western')">👖 Western</a>
-      <a class="nav-link" onclick="filterCat('footwear')">👟 Footwear</a>
-      <a class="nav-link" onclick="filterCat('accessories')">👜 Accessories</a>
-      <a class="nav-link" onclick="filterCat('sale')">🏷️ Sale</a>
+      <a class="nav-link active" data-nav="all" onclick="filterCat('all')">🔥 All</a>
+      <a class="nav-link" data-nav="men" onclick="filterCat('men')">👔 Men</a>
+      <a class="nav-link" data-nav="women" onclick="filterCat('women')">👗 Women</a>
+      <a class="nav-link" data-nav="kids" onclick="filterCat('kids')">🧸 Kids</a>
+      <a class="nav-link" data-nav="ethnic" onclick="filterCat('ethnic')">🥻 Ethnic</a>
+      <a class="nav-link" data-nav="western" onclick="filterCat('western')">👖 Western</a>
+      <a class="nav-link" data-nav="footwear" onclick="filterCat('footwear')">👟 Footwear</a>
+      <a class="nav-link" data-nav="accessories" onclick="filterCat('accessories')">👜 Accessories</a>
+      <a class="nav-link" data-nav="sale" onclick="filterCat('sale')">🏷️ Sale</a>
     </div>
   </div>
+  
   <div class="mobile-menu" id="mobileMenu">
-    <a onclick="filterCat('all');toggleMenu()">👔 Men</a>
+    <a onclick="filterCat('all');toggleMenu()">🔥 All</a>
+    <a onclick="filterCat('men');toggleMenu()">👔 Men</a>
     <a onclick="filterCat('women');toggleMenu()">👗 Women</a>
     <a onclick="filterCat('kids');toggleMenu()">🧸 Kids</a>
     <a onclick="filterCat('ethnic');toggleMenu()">🥻 Ethnic</a>
     <a onclick="filterCat('western');toggleMenu()">👖 Western</a>
     <a onclick="filterCat('footwear');toggleMenu()">👟 Footwear</a>
     <a onclick="filterCat('accessories');toggleMenu()">👜 Accessories</a>
+    <a onclick="filterCat('sale');toggleMenu()">🏷️ Sale</a>
   </div>
 </header>
 
@@ -661,20 +667,34 @@ function renderProducts(productsToRender) {
 function filterCat(category) {
   currentCategory = category;
   
+  // Update active state for pills and nav links
   document.querySelectorAll('.cat-pill, .nav-link').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll(`.cat-pill[data-cat="${category}"]`).forEach(el => el.classList.add('active'));
   
+  const activePill = document.querySelector(`.cat-pill[data-cat="${category}"]`);
+  if (activePill) activePill.classList.add('active');
+  
+  const activeNav = document.querySelector(`.nav-link[data-nav="${category}"]`);
+  if (activeNav) activeNav.classList.add('active');
+  
+  // Set correct Title
   const titles = {
     'all': 'Trending Fashion',
+    'men': "Men's Fashion",
+    'women': "Women's Fashion",
+    'kids': "Kids Fashion",
     'kurta': 'Kurta & Kurti',
     'jeans': 'Jeans',
     'tshirt': 'T-Shirts',
     'saree': 'Sarees',
     'dress': 'Dresses',
     'ethnic': 'Ethnic Wear',
+    'western': 'Western Wear',
     'shoes': 'Footwear',
-    'bags': 'Bags',
-    'winter': 'Winter Wear'
+    'footwear': 'Footwear',
+    'bags': 'Bags & Accessories',
+    'accessories': 'Bags & Accessories',
+    'winter': 'Winter Wear',
+    'sale': 'Sale Deals'
   };
   document.getElementById('categoryTitle').textContent = titles[category] || 'Fashion';
   
@@ -699,13 +719,38 @@ function applyFilters() {
   const minDiscount = discFilter ? parseInt(discFilter.value) : 0;
   
   filteredProducts = products.filter(p => {
-    if (currentCategory !== 'all' && p.category !== currentCategory) return false;
+    
+    // Main Nav / Pill Smart Filter Logic
+    if (currentCategory !== 'all') {
+      let mappedCat = currentCategory;
+      
+      // Handle Aliases
+      if (mappedCat === 'shoes') mappedCat = 'footwear';
+      if (mappedCat === 'accessories') mappedCat = 'bags';
+      
+      // Filter logic based on type of category clicked
+      if (mappedCat === 'sale') {
+        if (p.badge !== 'sale' && p.discount === 0) return false;
+      } 
+      else if (['men', 'women', 'kids'].includes(mappedCat)) {
+        if (p.gender !== mappedCat) return false;
+      } 
+      else if (mappedCat === 'western') {
+        if (!['jeans', 'tshirt', 'dress'].includes(p.category)) return false;
+      } 
+      else {
+        if (p.category !== mappedCat) return false;
+      }
+    }
+    
+    // Checkbox and Search Filters
     if (searchTerm && !p.name.toLowerCase().includes(searchTerm) && !p.brand.toLowerCase().includes(searchTerm)) return false;
     if (p.price < minPrice || p.price > maxPrice) return false;
     if (genderFilters.length && !genderFilters.includes(p.gender)) return false;
     if (categoryFilters.length && !categoryFilters.includes(p.category)) return false;
     if (storeFilters.length && !storeFilters.includes(p.store)) return false;
     if (p.discount < minDiscount) return false;
+    
     return true;
   });
   
@@ -751,10 +796,7 @@ function resetFilters() {
   document.getElementById('searchInput').value = '';
   currentCategory = 'all';
   clearFilter('all');
-  document.querySelectorAll('.cat-pill').forEach(el => el.classList.remove('active'));
-  document.querySelector('.cat-pill[data-cat="all"]').classList.add('active');
-  document.getElementById('categoryTitle').textContent = 'Trending Fashion';
-  applyFilters();
+  filterCat('all');
 }
 
 // ==================== SEARCH ====================
@@ -802,6 +844,7 @@ function selectSuggestion(term) {
 // ==================== WISHLIST ====================
 function toggleWishlistItem(id, event) {
   event.stopPropagation();
+  event.preventDefault();
   const index = wishlist.indexOf(id);
   if (index > -1) {
     wishlist.splice(index, 1);
@@ -812,13 +855,6 @@ function toggleWishlistItem(id, event) {
   }
   updateWishlistCount();
 }
-
-// (Fix inside template creation context helper)
-document.addEventListener('click', function(e){
-  if(e.target && e.target.classList.contains('product-wishlist')){
-     e.preventDefault();
-  }
-});
 
 function updateWishlistCount() {
   document.getElementById('wishlistCount').textContent = wishlist.length;
