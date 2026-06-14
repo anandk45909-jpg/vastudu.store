@@ -7,9 +7,9 @@
   <meta name="description" content="Discover best fashion deals from Myntra, Ajio, Amazon. Compare prices, browse collections – Men, Women, Kids clothing India."/>
   <meta name="keywords" content="fashion India, clothing deals, Myntra offers, Ajio discounts, men women kids fashion, kurta saree jeans India"/>
   
-  <!-- Google Search ke liye Favicon Updated -->
-  <link rel="icon" href="images/logo.png" type="image/png" sizes="192x192" />
-  <link rel="apple-touch-icon" href="images/logo.png" />
+  <!-- Sirf Favicon Update Kiya Hai (Google Search ke liye) -->
+  <link rel="icon" href="logo.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="logo.png" />
   
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
@@ -39,9 +39,11 @@
     /* HEADER */
     header { background:var(--primary); position:sticky; top:0; z-index:200; box-shadow:0 2px 20px rgba(0,0,0,0.15); }
     .header-top { max-width:1200px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 20px; }
-    .logo { cursor:pointer; flex-shrink:0; display:flex; align-items:center; }
-    .logo img { height: 42px; width: auto; border-radius: 4px; transition: transform 0.2s; background: #fff; padding: 2px; }
-    .logo img:hover { transform: scale(1.05); }
+    
+    /* Pehle Jaisa Text Logo CSS */
+    .logo { font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800; color:#fff; flex-shrink:0; cursor:pointer; }
+    .logo span { color:var(--accent); }
+    .logo em { font-style:normal; font-size:0.6rem; color:#9ca3af; display:block; letter-spacing:2px; text-transform:uppercase; line-height:1; }
     
     .search-wrap { flex:1; position:relative; max-width:500px; margin:0 10px; }
     .search-wrap input { width:100%; padding:10px 16px 10px 44px; border-radius:30px; border:none; background:#fff; font-size:0.9rem; font-family:'DM Sans',sans-serif; outline:none; color:var(--text); transition:box-shadow .2s; }
@@ -206,8 +208,11 @@
     .footer-top { display:grid; grid-template-columns:1.5fr repeat(3,1fr); gap:30px; margin-bottom:30px; }
     @media(max-width:768px){ .footer-top { grid-template-columns:1fr 1fr; } }
     @media(max-width:500px){ .footer-top { grid-template-columns:1fr; } }
-    .footer-brand .f-logo { margin-bottom:12px; }
-    .footer-brand .f-logo img { height: 48px; width: auto; border-radius: 6px; background: #fff; padding: 2px; }
+    
+    /* Pehle jaisa Footer Logo CSS */
+    .footer-brand .f-logo { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:#fff; margin-bottom:8px; }
+    .footer-brand .f-logo span { color:var(--accent); }
+    
     .footer-brand p { font-size:0.8rem; line-height:1.7; max-width:220px; }
     .footer-col h4 { font-family:'Syne',sans-serif; color:#fff; font-size:0.9rem; margin-bottom:14px; }
     .footer-col a { display:block; font-size:0.8rem; margin-bottom:8px; transition:all .2s; color:rgba(255,255,255,0.6); }
@@ -244,7 +249,11 @@
       .hamburger { display:flex; }
       .header-nav { display:none; }
       .header-top { padding:10px 12px; gap:8px; }
-      .logo img { height: 36px; }
+      
+      /* Mobile Text Logo Adjustments */
+      .logo { font-size:1.2rem; }
+      .logo em { font-size:0.45rem; letter-spacing:1px; }
+      
       .search-wrap { max-width:none; margin:0 4px; }
       .search-wrap input { padding:8px 10px 8px 34px; font-size:0.8rem; height:36px; }
       .search-icon { left:10px; font-size:0.85rem; }
@@ -294,9 +303,12 @@
 <!-- HEADER -->
 <header>
   <div class="header-top">
-    <!-- Header Logo Updated -->
+    <!-- Wapas Pehle Jaisa Text Logo Lagaya Gaya Hai -->
     <div class="logo" onclick="resetFilters()">
-      <img src="images/logo.png" alt="Vastudu Fashion Discovery" />
+      <div>
+        Vast<span>udu.store</span>
+        <em>Fashion Discovery</em>
+      </div>
     </div>
     
     <div class="search-wrap">
@@ -543,10 +555,8 @@
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <!-- Footer Logo Updated -->
-        <div class="f-logo">
-          <img src="logo.png" alt="Vastudu Store Logo" />
-        </div>
+        <!-- Wapas Pehle Jaisa Text Logo Lagaya Gaya Hai -->
+        <div class="f-logo">Vast<span>udu.store</span></div>
         <p>India's fashion discovery platform. Compare prices, find best deals across all top stores.</p>
       </div>
       <div class="footer-col">
@@ -587,7 +597,7 @@
 <!-- PAGE MODALS -->
 <div class="page-modal" id="modal-about"><div class="page-content"><button class="page-close" onclick="closePage('about')">✕</button><h2>About Vastudu</h2><p>Vastudu India ka fashion discovery platform hai — jahan aap best prices compare kar sakte hain Myntra, Ajio, Amazon aur aur bhi stores se.</p><p>Hamara goal: ek hi jagah sabse achha deal dhundhna — bina time waste kiye. Hum affiliate links use karte hain, jo aapke final price ko affect nahi karta.</p></div></div>
 <div class="page-modal" id="modal-contact"><div class="page-content"><button class="page-close" onclick="closePage('contact')">✕</button><h2>Contact Us</h2><p>📧 Email: hello@vastudu.in</p><p>Hamari team 24-48 hours me reply karegi.</p></div></div>
-<div class="page-modal" id="modal-privacy"><div class="page-content"><button class="page-close" onclick="closePage('privacy')">✕</button><h2>Privacy Policy</h2><p>Vastudu aapki privacy ka poora khayal rakhta hai. Hum koi personal data share nahi ক্ষমতায় karte.</p><p>Affiliate tracking ke liye basic cookies use hoti hain jo aapka browsing experience behtar banati hain.</p></div></div>
+<div class="page-modal" id="modal-privacy"><div class="page-content"><button class="page-close" onclick="closePage('privacy')">✕</button><h2>Privacy Policy</h2><p>Vastudu aapki privacy ka poora khayal rakhta hai. Hum koi personal data share nahi karte.</p><p>Affiliate tracking ke liye basic cookies use hoti hain jo aapka browsing experience behtar banati hain.</p></div></div>
 <div class="page-modal" id="modal-disclaimer"><div class="page-content"><button class="page-close" onclick="closePage('disclaimer')">✕</button><h2>Disclaimer</h2><p>Vastudu pe dikhaye gaye prices change ho sakte hain. Purchase se pehle store pe verify karein.</p><p>Yeh website affiliate links use karti hai — koi bhi purchase par commission mil sakti hai jo aapke price ko affect nahi karta.</p></div></div>
 
 <!-- TOAST -->
